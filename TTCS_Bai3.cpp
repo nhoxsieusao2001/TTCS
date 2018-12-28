@@ -5,77 +5,73 @@
 #include<vector>
 #include<string.h>
 using namespace std;
-struct BoDe
-{
+struct BoDe{
 	string cauhoi;
 	string A, B, C;
 	string DA;
 };
-vector <BoDe> bd;
-struct Nguoichoi
-{
+struct Nguoichoi{
 	string ten;
 	int diem;
 };
+vector <BoDe> bd;
 vector <Nguoichoi> NC;
-void Xuat(BoDe bd)
-{
+int Xuat(BoDe bd){	
+	int diem=0;
 	string DapAn;
 	cout<<bd.cauhoi<<endl;
 	cout<<bd.A<<endl;
 	cout<<bd.B<<endl;
 	cout<<bd.C<<endl;
-	cout<<" nhap dap an tra loi "; cin>>DapAn;
-	if (bd.DA==DapAn)
-		cout<<"ban da nhap dung"<<endl;
-	else cout<<"ban da sai"<<endl;
-	
+	cout<<"Nhap dap an tra loi: "; cin>>DapAn;
+	if(DapAn==bd.DA){
+		cout<<"Tra loi dung"<<endl;
+		diem=1;
+	}
+	else{
+		cout<<"Tra loi sai"<<endl;
+		diem=0;
+	}
+	return diem;	
 }
-void DocDee(){
-	for(int i=0;i<bd.size();i++)
-		Xuat(bd[i]);	
-	
+void Nhaptennguoichoi(int d){
+	Nguoichoi nc;
+	cout<<"Nhap ten:";
+	cin>>nc.ten;
+	nc.diem=d;
+	NC.push_back(nc);
 }
-
-void DocDe()
-{
-	
+void DocDe(){	
 	int de;
-	cout<<"chon de ";
+	cout<<"Chon de ";
 	cin>>de;
-	if (de ==1)
-		{
+	switch (de){
+		case 1:{
 			ifstream f("de1.txt");//mo ra de doc
 			string s;
 			BoDe de1; 
-			
 			int SL;
 			getline(f,s);
 			SL=atoi(s.c_str());// doi tu kieu string sang kieu int
-			for (int i=0;i<SL;i++)
-			{
+			for (int i=0;i<SL;i++){
 				getline(f,s);  de1.cauhoi=s;
 				getline(f,s);  de1.A=s;
 				getline(f,s);  de1.B=s;
 				getline(f,s);  de1.C=s;
 				getline(f,s);	de1.DA =s;
 				bd.push_back(de1);
-				
 			}
-			DocDee();
+			break;
 		}
-		if (de ==2)
-		{
+		case 2:{
 			ifstream f("de2.txt");//mo ra de doc
 			string s; BoDe de2; 
 			int SL;
 			getline(f,s);
 			SL=atoi(s.c_str());// doi tu kieu string sang kieu int
-			for (int i=0;i<SL;i++)
-			{
+			for (int i=0;i<SL;i++)	{
 				getline(f,s);
 				de2.cauhoi =s;
-	
 				getline(f,s);
 				de2.A=s;
 				getline(f,s);
@@ -86,11 +82,29 @@ void DocDe()
 				de2.DA =s;
 				bd.push_back(de2);
 			}
-			DocDee();
-		}	
+			break;	
+		}
+	}
 }
-
-int main()
-{
-DocDe();
+void Xuatdiem(){
+	for(int i=0;i<NC.size();i++){
+		cout<<NC[i].ten<<endl;
+		cout<<NC[i].diem<<endl;
+	}
+}
+int main(){	
+	int KiemTra;
+	do{
+		DocDe();
+		int d=0;
+		for(int i=0;i<bd.size();i++)
+			d+=Xuat(bd[i]);
+		cout<<"So diem dat duoc: "<<d<<endl;
+		Nhaptennguoichoi(d);
+		cout<<"Ban co muon choi tiep khong?"<<endl;
+		cout<<"0: Ngung choi"<<endl;
+		cin>>KiemTra;
+		bd.clear();
+	} while (KiemTra!=0);
+	Xuatdiem();	
 }
