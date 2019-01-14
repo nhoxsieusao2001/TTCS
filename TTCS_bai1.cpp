@@ -10,7 +10,7 @@ fstream fo("output.dat");
 typedef struct 
 { 
 	char ten[20],sdt[20],diachi[50],gmail[20];
-//	char gioitinh;
+	//char gioitinh;
 } contact;
 char *fileName="danhba.dat";
 vector <contact> db;
@@ -21,9 +21,10 @@ void Xoacontact(char* sdt);
 void Suacontact(contact contactmoi);
 void Incontact(contact c);
 void InDB();
+void Capnhat(char *sua);
 int main()
 {
-	cout<<"Hello"<<"\n";
+	cout<<"Xin chao "<<"\n";
 	docDBTuFile();
 	InDB();
 	contact c1;
@@ -47,9 +48,15 @@ int main()
 	cout<<"nhap SDT can xoa :";
 	cin>>sdt;
 	Xoacontact(sdt);
-	cout<<"Danh Ba moi sau khi xoa :";
-	InDB(); 
+	cout<<"Danh Ba moi sau khi xoa :"<<endl;
+	InDB();
 	
+	char sua[11];
+	cout<<"Nhap so dien thoai can chinh sua : ";
+	cin>>sua;
+	Capnhat(sua);
+	cout<<"Danh ba sau khi sua la :"<<endl;
+	InDB();
 }
 void docDBTuFile()
 {
@@ -116,4 +123,23 @@ void Xoacontact( char *sdt){
 	}
 	
 }
-
+void Capnhat(char *sua){
+	int a;
+	contact c;
+	int size=db.size();
+	for(int i=0;i<size;i++){
+		if(strcmp(db[i].sdt,sua)==0){
+			a=i;
+			db.erase(db.begin()+a);
+			cout<<"Ten : ";
+			cin>>c.ten;
+			cout<<"Sdt : ";
+			cin>>c.sdt;
+			cout<<"Gmail :";
+			cin>>c.gmail;
+			cout<<"Diachi :";
+			cin>>c.diachi;
+			db.insert(db.begin()+a,c);
+		}
+	}
+}
